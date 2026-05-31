@@ -9,7 +9,7 @@ Aplicación de escritorio interactiva que demuestra el uso completo de **SimpleF
 | Requisito | Versión mínima |
 |-----------|---------------|
 | Python | 3.10+ |
-| Sistema operativo | Windows (la apertura de PDF usa `os.startfile`) |
+| Sistema operativo | Windows, Linux o macOS |
 
 ---
 

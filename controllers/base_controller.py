@@ -1,5 +1,7 @@
 import json
 import os
+import platform
+import subprocess
 import tempfile
 
 
@@ -8,13 +10,22 @@ class BaseController:
         self.username = username
         self.password = password
 
+    @staticmethod
+    def _open_file(path: str) -> None:
+        system = platform.system()
+        if system == "Windows":
+            os.startfile(path)
+        elif system == "Darwin":
+            subprocess.Popen(["open", path])
+        else:
+            subprocess.Popen(["xdg-open", path])
+
     def _handle_bytes(self, data: bytes, status: int) -> str:
-        # PDF → save to temp file and open with default viewer
         if data[:4] == b'%PDF':
             tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
             tmp.write(data)
             tmp.close()
-            os.startfile(tmp.name)
+            self._open_file(tmp.name)
             return f"✓ Status: {status}\nPDF abierto ({len(data):,} bytes)\nArchivo temporal: {tmp.name}"
 
         # Try to decode as text
