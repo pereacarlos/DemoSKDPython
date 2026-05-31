@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import json
-
 from controllers.boletahonorario_controller import BoletaHonorarioController
 from controllers.facturacion_controller import FacturacionController
 from controllers.clientes_controller import ClientesController
@@ -827,14 +826,15 @@ class MainView:
         def _toggle_pass():
             if self._pass_entry.cget("show") == "*":
                 self._pass_entry.configure(show="")
-                _btn_eye.configure(text="🔒")
+                _btn_eye.configure(text=" 🔒 Ocultar ")
             else:
                 self._pass_entry.configure(show="*")
-                _btn_eye.configure(text="👁")
+                _btn_eye.configure(text=" 👁 Ver ")
 
-        _btn_eye = tk.Button(cred_bar, text="👁", font=("Segoe UI", 9),
-                              relief="flat", bg="#EAF0FB", activebackground="#D0E4F7",
-                              cursor="hand2", bd=0, padx=4, command=_toggle_pass)
+        _btn_eye = tk.Button(cred_bar, text=" 👁 Ver ", font=("Segoe UI", 9, "bold"),
+                              relief="solid", bg="#C8E0F8", activebackground="#A0C8F0",
+                              cursor="hand2", bd=1, padx=6, pady=2,
+                              command=_toggle_pass)
         _btn_eye.pack(side=tk.LEFT, padx=(0, 12))
 
         ttk.Label(cred_bar,
@@ -881,6 +881,7 @@ class MainView:
         paned = tk.PanedWindow(content, orient=tk.VERTICAL,
                                 sashwidth=6, bg="#BDC3D0", relief="flat")
         paned.pack(fill=tk.BOTH, expand=True, padx=12, pady=(0, 10))
+        self._paned = paned
 
         # Form panel (scrollable)
         form_outer = tk.Frame(paned, bg=BG)
@@ -989,8 +990,8 @@ class MainView:
                 cols.pack(fill=tk.X, padx=8, pady=4)
                 left_col  = tk.Frame(cols, bg=BG)
                 right_col = tk.Frame(cols, bg=BG)
-                left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 4))
-                right_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(4, 0))
+                left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 1))
+                right_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(1, 0))
                 mid = (len(fields) + 1) // 2
                 parents = [left_col if i < mid else right_col for i in range(len(fields))]
             else:
@@ -998,6 +999,10 @@ class MainView:
 
             for field, parent in zip(fields, parents):
                 self._build_field_row(parent, field, BG)
+
+            # Expand form pane when there is a JSON textarea
+            if has_json:
+                self.root.after(30, lambda: self._paned.sash_place(0, 0, 330))
 
         # Execute button always at bottom of form_frame
         btn_row = tk.Frame(self.form_frame, bg=BG)
