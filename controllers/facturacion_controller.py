@@ -233,24 +233,6 @@ class FacturacionController(BaseController):
         except Exception as e:
             return f"✗ Error inesperado: {e}"
 
-    def ceder_factura(self, rut_empresa: str, folio: int, rut_cesionario: str,
-                      rut_persona_autorizada: str, correo_deudor: str, otras_condiciones: str) -> str:
-        async def _exec():
-            async with ClientSimpleFactura(self.username, self.password) as client:
-                solicitud = CesionDteRequest(
-                    CorreoDeudor=correo_deudor,
-                    RutCesionario=rut_cesionario,
-                    RutPersonaAutorizada=rut_persona_autorizada,
-                    OtrasCondiciones=otras_condiciones,
-                    Folio=folio,
-                    RutEmpresa=rut_empresa
-                )
-                return await client.Facturacion.ceder_Factura(solicitud)
-        try:
-            return self.format_response(asyncio.run(_exec()))
-        except Exception as e:
-            return f"✗ Error inesperado: {e}"
-
     def preview_dte(self, sucursal: str, request_json: str) -> str:
         async def _exec():
             async with ClientSimpleFactura(self.username, self.password) as client:

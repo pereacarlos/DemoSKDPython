@@ -210,7 +210,7 @@ REGISTRY = [
         ("Anular BHE", [
             _f("RUT Empresa", "rut_empresa", RUT_EMPRESA),
             _f("Folio",       "folio",       FOLIO),
-            _f("Motivo (1=ServicioNoPagado, 2=NoEfectuado, 3=Error)", "motivo", "3",
+            _f("Motivo", "motivo", "3",
                "combo", ["1 - Servicio No Pagado", "2 - Servicio No Efectuado", "3 - Error Digitación"]),
         ], lambda f, u, p: BoletaHonorarioController(u, p).anular_bhe(
             f["rut_empresa"], int(f["folio"]),
@@ -221,7 +221,7 @@ REGISTRY = [
             _f("RUT Empresa",       "rut_empresa",        RUT_EMPRESA),
             _f("RUT Contribuyente", "rut_contribuyente",   RUT_RECEPTOR),
             _f("Folio",             "folio",               FOLIO),
-            _f("Observación (1=NoReconoceRelación, 2=NoReconoceEmisor)", "observacion", "1",
+            _f("Observación", "observacion", "1",
                "combo", ["1 - No reconoce relación", "2 - No reconoce emisor"]),
         ], lambda f, u, p: BoletaHonorarioController(u, p).observar_bhe(
             f["rut_empresa"], f["rut_contribuyente"], int(f["folio"]),
@@ -262,7 +262,7 @@ REGISTRY = [
             _f("Nombre Sucursal","sucursal",  SUCURSAL),
             _f("Tipo DTE",      "tipo_dte",   TIPO_DTE),
             _f("Folio",         "folio",      FOLIO),
-            _f("Ambiente",      "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",      "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).obtener_timbre(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -272,7 +272,7 @@ REGISTRY = [
             _f("Nombre Sucursal","sucursal",  SUCURSAL),
             _f("Tipo DTE",      "tipo_dte",   TIPO_DTE),
             _f("Folio",         "folio",      FOLIO),
-            _f("Ambiente",      "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",      "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).obtener_xml(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -282,7 +282,7 @@ REGISTRY = [
             _f("Nombre Sucursal","sucursal",  SUCURSAL),
             _f("Tipo DTE",      "tipo_dte",   TIPO_DTE),
             _f("Folio",         "folio",      FOLIO),
-            _f("Ambiente",      "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",      "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).obtener_dte(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -292,7 +292,7 @@ REGISTRY = [
             _f("Nombre Sucursal","sucursal",  SUCURSAL),
             _f("Tipo DTE",      "tipo_dte",   TIPO_DTE),
             _f("Folio",         "folio",      FOLIO),
-            _f("Ambiente",      "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",      "ambiente",   AMBIENTE),
             _f("Valor Sobre",   "sobre",      "1"),
         ], lambda f, u, p: FacturacionController(u, p).obtener_sobre_xml(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"]), int(f["sobre"])
@@ -321,14 +321,15 @@ REGISTRY = [
 
         ("Facturación Masiva (CSV)", [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
+            _f("Nombre Sucursal", "sucursal", SUCURSAL),
             _f("Ruta CSV",   "path_csv",   "C:/facturas/masivo.csv"),
         ], lambda f, u, p: FacturacionController(u, p).facturacion_masiva(
-            f["rut_emisor"], f["path_csv"]
+            f["rut_emisor"], f["sucursal"], f["path_csv"]
         )),
 
         ("Emisión NC / ND V2", [
             _f("Sucursal",     "sucursal",     SUCURSAL),
-            _f("Motivo (1=Anula, 2=Corrige texto, 3=Corrige montos)", "motivo", "1",
+            _f("Motivo", "motivo", "1",
                "combo", ["1 - Anula doc. referencia", "2 - Corrige texto", "3 - Corrige montos"]),
             _f("Request JSON", "request_json", NC_ND_JSON, "json"),
         ], lambda f, u, p: FacturacionController(u, p).emision_nc_nd_v2(
@@ -343,7 +344,7 @@ REGISTRY = [
             _f("Tipo DTE",           "tipo_dte",   TIPO_DTE),
             _f("Desde (YYYY-MM-DD)", "desde",      DESDE),
             _f("Hasta (YYYY-MM-DD)", "hasta",      HASTA),
-            _f("Ambiente",           "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",           "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).listado_dte_emitidos(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), f["desde"], f["hasta"], int(f["ambiente"])
         )),
@@ -362,7 +363,7 @@ REGISTRY = [
             _f("Nombre Sucursal",    "sucursal",   SUCURSAL),
             _f("Desde (YYYY-MM-DD)", "desde",      DESDE),
             _f("Hasta (YYYY-MM-DD)", "hasta",      HASTA),
-            _f("Ambiente",           "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",           "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).consolidado_ventas(
             f["rut_emisor"], f["sucursal"], f["desde"], f["hasta"], int(f["ambiente"])
         )),
@@ -381,21 +382,9 @@ REGISTRY = [
             _f("Nombre Sucursal","sucursal",   SUCURSAL),
             _f("Tipo DTE",       "tipo_dte",   TIPO_DTE),
             _f("Folio",          "folio",      FOLIO),
-            _f("Ambiente",       "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",       "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).obtener_trazas(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
-        )),
-
-        ("Ceder Factura", [
-            _f("RUT Empresa",           "rut_empresa",           RUT_EMPRESA),
-            _f("Folio",                 "folio",                 FOLIO),
-            _f("RUT Cesionario",        "rut_cesionario",        "76111222-3"),
-            _f("RUT Persona Autorizada","rut_persona_autorizada","12345678-9"),
-            _f("Correo Deudor",         "correo_deudor",         EMAIL),
-            _f("Otras Condiciones",     "otras_condiciones",     "Pago a 30 días"),
-        ], lambda f, u, p: FacturacionController(u, p).ceder_factura(
-            f["rut_empresa"], int(f["folio"]), f["rut_cesionario"],
-            f["rut_persona_autorizada"], f["correo_deudor"], f["otras_condiciones"]
         )),
 
         ("Preview DTE", [
@@ -410,7 +399,7 @@ REGISTRY = [
             _f("Nombre Sucursal","sucursal",   SUCURSAL),
             _f("Tipo DTE",       "tipo_dte",   TIPO_DTE),
             _f("Folio",          "folio",      FOLIO),
-            _f("Ambiente",       "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",       "ambiente",   AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).reenvio_sii(
             f["rut_emisor"], f["sucursal"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -418,7 +407,7 @@ REGISTRY = [
         ("Anular Guía Despacho", [
             _f("RUT Empresa", "rut_empresa", RUT_EMPRESA),
             _f("Folio",       "folio",       FOLIO),
-            _f("Ambiente",    "ambiente",    AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",    "ambiente",    AMBIENTE),
         ], lambda f, u, p: FacturacionController(u, p).anular_guia(
             f["rut_empresa"], int(f["folio"]), int(f["ambiente"])
         )),
@@ -505,7 +494,7 @@ REGISTRY = [
         ("Consulta Folios Disponibles", [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: FolioController(u, p).consulta_folios_disponibles(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["ambiente"])
         )),
@@ -513,7 +502,7 @@ REGISTRY = [
         ("Solicitar Folios", [
             _f("RUT Empresa", "rut_empresa", RUT_EMPRESA),
             _f("Tipo DTE",    "tipo_dte",    TIPO_DTE),
-            _f("Ambiente",    "ambiente",    AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",    "ambiente",    AMBIENTE),
             _f("Cantidad",    "cantidad",    "50"),
         ], lambda f, u, p: FolioController(u, p).solicitar_folios(
             f["rut_empresa"], int(f["tipo_dte"]), int(f["ambiente"]), int(f["cantidad"])
@@ -522,7 +511,7 @@ REGISTRY = [
         ("Consultar Folios", [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: FolioController(u, p).consultar_folios(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["ambiente"])
         )),
@@ -530,7 +519,7 @@ REGISTRY = [
         ("Folios Sin Uso", [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: FolioController(u, p).folios_sin_uso(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["ambiente"])
         )),
@@ -538,7 +527,7 @@ REGISTRY = [
         ("Anular Folio", [
             _f("RUT Emisor",    "rut_emisor",    RUT_EMISOR),
             _f("Tipo DTE",      "tipo_dte",      TIPO_DTE),
-            _f("Ambiente",      "ambiente",      AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",      "ambiente",      AMBIENTE),
             _f("Folio Inicio",  "folio_inicio",  "1"),
             _f("Folio Término", "folio_termino", "1"),
             _f("Motivo",        "motivo",        "No utilizado"),
@@ -575,15 +564,17 @@ REGISTRY = [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
-            _f("Respuesta (3=Aceptado, 4=Con reparos, 5=Rechazado)", "respuesta", "3",
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
+            _f("Respuesta", "respuesta", "3",
                "combo", ["3 - Aceptado", "4 - Con reparos", "5 - Rechazado"]),
-            _f("Tipo Rechazo (0=N/A, 1=RCD, 3=RFP, 4=RFT)", "tipo_rechazo", "0"),
+            _f("Tipo Rechazo", "tipo_rechazo", "0",
+               "combo", ["0 - N/A", "1 - Rechazo Completo DTE (RCD)", "3 - Rechazo por Falta de Receptor (RFP)", "4 - Rechazo por Falta de Timbre (RFT)"]),
             _f("Comentario", "comentario", "Recibido conforme"),
         ], lambda f, u, p: ProveedorController(u, p).aceptar_rechazar_dte(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"]),
             int(f["respuesta"].split(" ")[0]) if " " in f["respuesta"] else int(f["respuesta"]),
-            int(f["tipo_rechazo"]), f["comentario"]
+            int(f["tipo_rechazo"].split(" ")[0]) if " " in f["tipo_rechazo"] else int(f["tipo_rechazo"]),
+            f["comentario"]
         )),
 
         ("Listar DTE Recibidos", [
@@ -591,7 +582,7 @@ REGISTRY = [
             _f("Tipo DTE",           "tipo_dte",   TIPO_DTE),
             _f("Desde (YYYY-MM-DD)", "desde",      DESDE),
             _f("Hasta (YYYY-MM-DD)", "hasta",      HASTA),
-            _f("Ambiente",           "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",           "ambiente",   AMBIENTE),
         ], lambda f, u, p: ProveedorController(u, p).listar_dte_recibidos(
             f["rut_emisor"], int(f["tipo_dte"]), f["desde"], f["hasta"], int(f["ambiente"])
         )),
@@ -600,7 +591,7 @@ REGISTRY = [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: ProveedorController(u, p).obtener_xml_recibido(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -609,7 +600,7 @@ REGISTRY = [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: ProveedorController(u, p).obtener_pdf_recibido(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -626,7 +617,7 @@ REGISTRY = [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: ProveedorController(u, p).obtener_trazas_recibidas(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -634,7 +625,7 @@ REGISTRY = [
         ("Actualizar Lista Proveedor", [
             _f("RUT Emisor",   "rut_emisor",   RUT_EMISOR),
             _f("RUT Proveedor","rut_proveedor", "87654321-0"),
-            _f("Lista (1=Negra, 2=Blanca, 3=Desconocido)", "lista", "2",
+            _f("Lista", "lista", "2",
                "combo", ["1 - Lista Negra", "2 - Lista Blanca", "3 - Desconocido"]),
         ], lambda f, u, p: ProveedorController(u, p).actualizar_lista_proveedor(
             f["rut_emisor"], f["rut_proveedor"],
@@ -666,14 +657,14 @@ REGISTRY = [
         ("Obtener Trazas Cesión Emitida", [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: CesionController(u, p).obtener_trazas_cesion_emitida(
             f["rut_emisor"], int(f["folio"]), int(f["ambiente"])
         )),
 
         ("Listado Cesiones Emitidas", [
             _f("RUT Emisor",         "rut_emisor", RUT_EMISOR),
-            _f("Ambiente",           "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",           "ambiente",   AMBIENTE),
             _f("Desde (YYYY-MM-DD)", "desde",      DESDE),
             _f("Hasta (YYYY-MM-DD)", "hasta",      HASTA),
         ], lambda f, u, p: CesionController(u, p).listado_cesiones_emitidas(
@@ -694,7 +685,7 @@ REGISTRY = [
             _f("Comuna",             "comuna",         "Providencia"),
             _f("Teléfono",           "telefono",       "+56912345678"),
             _f("Unidad SII",         "unidad_sii",     "Santiago Oriente"),
-            _f("Ambiente",           "ambiente",       AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",           "ambiente",       AMBIENTE),
         ], lambda f, u, p: PartnerController(u, p).enrolamiento_empresa(
             f["rut_empresa"], f["razon_social"], f["rut_rep_legal"], f["giro"],
             f["email"], f["direccion"], f["ciudad"], f["comuna"],
@@ -742,7 +733,7 @@ REGISTRY = [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: PaykuController(u, p).generar_url(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -751,7 +742,7 @@ REGISTRY = [
             _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",   "tipo_dte",   TIPO_DTE),
             _f("Folio",      "folio",      FOLIO),
-            _f("Ambiente",   "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",   "ambiente",   AMBIENTE),
         ], lambda f, u, p: PaykuController(u, p).reenviar_link_qr(
             f["rut_emisor"], int(f["tipo_dte"]), int(f["folio"]), int(f["ambiente"])
         )),
@@ -760,7 +751,7 @@ REGISTRY = [
             _f("RUT Emisor",          "rut_emisor", RUT_EMISOR),
             _f("Tipo DTE",            "tipo_dte",   TIPO_DTE),
             _f("Folio",               "folio",      FOLIO),
-            _f("Ambiente",            "ambiente",   AMBIENTE),
+            _f("Ambiente (0=Cert, 1=Prod)",            "ambiente",   AMBIENTE),
             _f("Pagado (True/False)", "pagado",     "True",
                "combo", ["True", "False"]),
         ], lambda f, u, p: PaykuController(u, p).marcar_pagado_o_pendiente(
@@ -982,6 +973,7 @@ class MainView:
             w.destroy()
         self._current_vars = {}
         self._current_handler = handler
+        BG = self.form_frame["bg"]
 
         self.lbl_title.configure(text=f"{svc_label}  ›  {ep_name}")
 
@@ -989,59 +981,102 @@ class MainView:
             ttk.Label(self.form_frame, text="Este endpoint no requiere parámetros.",
                        foreground="#7F8C8D", padding=(12, 8)).pack(anchor="w")
         else:
-            for field in fields:
-                row = tk.Frame(self.form_frame, bg=self.form_frame["bg"])
-                row.pack(fill=tk.X, padx=16, pady=5)
+            has_json = any(f["type"] == "json" for f in fields)
+            use_two_cols = len(fields) > 5 and not has_json
 
-                lbl = tk.Label(row, text=field["label"] + ":",
-                                bg=self.form_frame["bg"],
-                                font=("Segoe UI", 9), fg="#2C3E50",
-                                width=30, anchor="w")
-                lbl.pack(side=tk.LEFT, padx=(4, 6))
+            if use_two_cols:
+                cols = tk.Frame(self.form_frame, bg=BG)
+                cols.pack(fill=tk.X, padx=8, pady=4)
+                left_col  = tk.Frame(cols, bg=BG)
+                right_col = tk.Frame(cols, bg=BG)
+                left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 4))
+                right_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(4, 0))
+                mid = (len(fields) + 1) // 2
+                parents = [left_col if i < mid else right_col for i in range(len(fields))]
+            else:
+                parents = [self.form_frame] * len(fields)
 
-                var = tk.StringVar(value=field["default"])
-                self._current_vars[field["key"]] = var
+            for field, parent in zip(fields, parents):
+                self._build_field_row(parent, field, BG)
 
-                if field["type"] == "json":
-                    txt_outer = tk.Frame(row, bg="#BDC3D0",
-                                          highlightthickness=0, bd=1, relief="solid")
-                    txt_outer.pack(side=tk.LEFT, fill=tk.X, expand=True)
-                    txt_vsc = tk.Scrollbar(txt_outer, orient="vertical")
-                    txt_vsc.pack(side=tk.RIGHT, fill=tk.Y)
-                    txt_hsc = tk.Scrollbar(txt_outer, orient="horizontal")
-                    txt_hsc.pack(side=tk.BOTTOM, fill=tk.X)
-                    txt = tk.Text(txt_outer, height=16, width=60,
-                                   font=("Consolas", 8), relief="flat", bd=0,
-                                   highlightthickness=0,
-                                   bg="#FAFBFC", wrap=tk.NONE,
-                                   yscrollcommand=txt_vsc.set,
-                                   xscrollcommand=txt_hsc.set)
-                    txt_vsc.configure(command=txt.yview)
-                    txt_hsc.configure(command=txt.xview)
-                    txt.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-                    txt.insert("1.0", field["default"])
-                    self._current_vars[f"__text__{field['key']}"] = txt
-
-                elif field["type"] == "combo":
-                    combo = ttk.Combobox(row, textvariable=var,
-                                          values=field["options"],
-                                          state="readonly", width=38,
-                                          font=("Segoe UI", 9))
-                    combo.pack(side=tk.LEFT)
-
-                else:
-                    entry = tk.Entry(row, textvariable=var, width=40,
-                                      font=("Segoe UI", 9), relief="flat",
-                                      highlightthickness=1,
-                                      highlightbackground="#BDC3D0",
-                                      bg="#FAFBFC")
-                    entry.pack(side=tk.LEFT)
-
-        # Execute button
-        btn_row = tk.Frame(self.form_frame, bg=self.form_frame["bg"])
+        # Execute button always at bottom of form_frame
+        btn_row = tk.Frame(self.form_frame, bg=BG)
         btn_row.pack(fill=tk.X, padx=12, pady=(10, 6))
         ttk.Button(btn_row, text="  ▶  Ejecutar  ", style="Execute.TButton",
                    command=self._execute).pack(side=tk.LEFT)
+
+    @staticmethod
+    def _is_path_field(field: dict) -> bool:
+        combined = (field["key"] + " " + field["label"]).lower()
+        return any(x in combined for x in ["path", "ruta", "certificado", "csv", "logo", "archivo"])
+
+    def _build_field_row(self, parent, field: dict, BG: str):
+        from tkinter import filedialog
+        row = tk.Frame(parent, bg=BG)
+        row.pack(fill=tk.X, padx=8, pady=5)
+
+        lbl_width = 22 if parent is not self.form_frame else 28
+        tk.Label(row, text=field["label"] + ":",
+                  bg=BG, font=("Segoe UI", 9), fg="#2C3E50",
+                  width=lbl_width, anchor="w").pack(side=tk.LEFT, padx=(4, 6))
+
+        var = tk.StringVar(value=field["default"])
+        self._current_vars[field["key"]] = var
+
+        if field["type"] == "json":
+            txt_outer = tk.Frame(row, bg="#BDC3D0", highlightthickness=0, bd=1, relief="solid")
+            txt_outer.pack(side=tk.LEFT, fill=tk.X, expand=True)
+            txt_vsc = tk.Scrollbar(txt_outer, orient="vertical")
+            txt_vsc.pack(side=tk.RIGHT, fill=tk.Y)
+            txt_hsc = tk.Scrollbar(txt_outer, orient="horizontal")
+            txt_hsc.pack(side=tk.BOTTOM, fill=tk.X)
+            txt = tk.Text(txt_outer, height=16, width=60,
+                           font=("Consolas", 8), relief="flat", bd=0,
+                           highlightthickness=0, bg="#FAFBFC", wrap=tk.NONE,
+                           yscrollcommand=txt_vsc.set, xscrollcommand=txt_hsc.set)
+            txt_vsc.configure(command=txt.yview)
+            txt_hsc.configure(command=txt.xview)
+            txt.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            txt.insert("1.0", field["default"])
+            self._current_vars[f"__text__{field['key']}"] = txt
+
+        elif field["type"] == "combo":
+            ttk.Combobox(row, textvariable=var, values=field["options"],
+                          state="readonly", width=34,
+                          font=("Segoe UI", 9)).pack(side=tk.LEFT)
+
+        elif self._is_path_field(field):
+            inp_f = tk.Frame(row, bg=BG)
+            inp_f.pack(side=tk.LEFT, fill=tk.X, expand=True)
+            tk.Entry(inp_f, textvariable=var, width=32,
+                      font=("Segoe UI", 9), relief="flat",
+                      highlightthickness=1, highlightbackground="#BDC3D0",
+                      bg="#FAFBFC").pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+            def _browse(v=var):
+                path = filedialog.askopenfilename(
+                    title="Seleccionar archivo",
+                    filetypes=[
+                        ("Todos los archivos", "*.*"),
+                        ("Certificado PFX", "*.pfx"),
+                        ("CSV",             "*.csv"),
+                        ("Imagen PNG/JPG",  "*.png *.jpg *.jpeg"),
+                        ("PDF",             "*.pdf"),
+                    ]
+                )
+                if path:
+                    v.set(path)
+
+            tk.Button(inp_f, text="📂", font=("Segoe UI", 9),
+                       relief="flat", bg="#EAF0FB", activebackground="#D0E4F7",
+                       cursor="hand2", bd=0, padx=6,
+                       command=_browse).pack(side=tk.LEFT, padx=(4, 0))
+
+        else:
+            tk.Entry(row, textvariable=var, width=36,
+                      font=("Segoe UI", 9), relief="flat",
+                      highlightthickness=1, highlightbackground="#BDC3D0",
+                      bg="#FAFBFC").pack(side=tk.LEFT)
 
     # ── Execute ────────────────────────────────────────────────────────────────
 
