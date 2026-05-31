@@ -33,6 +33,7 @@ El archivo `requirements.txt` contiene:
 ```
 SimpleFacturaSDK==1.2.0
 aiohttp>=3.9.0
+Pillow>=10.0.0
 ```
 
 > **Nota:** `tkinter` viene incluido con Python para Windows; no requiere instalación separada.

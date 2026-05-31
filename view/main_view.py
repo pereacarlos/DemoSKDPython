@@ -766,7 +766,20 @@ REGISTRY = [
 class MainView:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("SimpleFactura SDK — Demo")
+
+        try:
+            import os, tempfile
+            from PIL import Image
+            _logo_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logo.png")
+            _img = Image.open(_logo_path)
+            _ico = tempfile.NamedTemporaryFile(delete=False, suffix=".ico")
+            _img.save(_ico.name, format="ICO", sizes=[(32, 32)])
+            _ico.close()
+            self.root.iconbitmap(_ico.name)
+        except Exception:
+            pass
+
+        self.root.title("Demo SDK Python")
         self.root.geometry("1400x860")
         self.root.minsize(1100, 680)
 
