@@ -8,6 +8,10 @@ from SimpleFacturaSDK.models.GetFactura.DteReferenciadoExterno import DteReferen
 from SimpleFacturaSDK.models.GetFactura.ListadoRequest import ListaDteRequestEnt
 from SimpleFacturaSDK.models.Proveedores.AcuseReciboExternoRequest import AcuseReciboExternoRequest
 from SimpleFacturaSDK.models.Proveedores.ListaProveedorRequest import ListaProveedorRequest
+from SimpleFacturaSDK.models.Proveedores.ListarProveedoresRequest import ListarProveedoresRequest
+from SimpleFacturaSDK.models.Proveedores.AgregarProveedorExternoRequest import AgregarProveedorExternoRequest
+from SimpleFacturaSDK.models.Proveedores.EditarProveedorRequest import EditarProveedorRequest
+from SimpleFacturaSDK.models.Proveedores.ProveedorExternoEnt import NuevoProveedorExternoEnt, EditarProveedorExternoEnt
 from SimpleFacturaSDK.enumeracion.TipoDTE import DTEType
 from SimpleFacturaSDK.enumeracion.Ambiente import AmbienteEnum
 from SimpleFacturaSDK.enumeracion.ResponseType import ResponseType
@@ -127,6 +131,70 @@ class ProveedorController(BaseController):
                     ListaProveedor=ListaProveedorEnum(lista)
                 )
                 return await client.Proveedores.actualizar_Lista_Proveedor(solicitud)
+        try:
+            return self.format_response(asyncio.run(_exec()))
+        except Exception as e:
+            return f"✗ Error inesperado: {e}"
+
+    def listar_proveedores(self, rut_emisor: str) -> str:
+        async def _exec():
+            async with ClientSimpleFactura(self.username, self.password) as client:
+                solicitud = ListarProveedoresRequest(RutEmisor=rut_emisor)
+                return await client.Proveedores.ListarProveedores(solicitud)
+        try:
+            return self.format_response(asyncio.run(_exec()))
+        except Exception as e:
+            return f"✗ Error inesperado: {e}"
+
+    def agregar_proveedores(self, rut_emisor: str, rut: str, razon_social: str, giro: str,
+                            dir_fact: str, correo_par: str, ciudad: str, comuna: str,
+                            correo_fact: str, lista_proveedor: int) -> str:
+        async def _exec():
+            async with ClientSimpleFactura(self.username, self.password) as client:
+                solicitud = AgregarProveedorExternoRequest(
+                    Credenciales=Credenciales(rut_emisor=rut_emisor),
+                    Proveedores=[
+                        NuevoProveedorExternoEnt(
+                            Rut=rut,
+                            RazonSocial=razon_social,
+                            Giro=giro,
+                            DirFact=dir_fact,
+                            CorreoPar=correo_par,
+                            Ciudad=ciudad,
+                            Comuna=comuna,
+                            CorreoFact=correo_fact or None,
+                            ListaProveedor=ListaProveedorEnum(lista_proveedor),
+                        )
+                    ],
+                )
+                return await client.Proveedores.AgregarProveedores(solicitud)
+        try:
+            return self.format_response(asyncio.run(_exec()))
+        except Exception as e:
+            return f"✗ Error inesperado: {e}"
+
+    def editar_proveedores(self, rut_emisor: str, rut: str, razon_social: str, giro: str,
+                           dir_fact: str, correo_par: str, ciudad: str, comuna: str,
+                           correo_fact: str, lista_proveedor: int) -> str:
+        async def _exec():
+            async with ClientSimpleFactura(self.username, self.password) as client:
+                solicitud = EditarProveedorRequest(
+                    Credenciales=Credenciales(rut_emisor=rut_emisor),
+                    Proveedores=[
+                        EditarProveedorExternoEnt(
+                            Rut=rut,
+                            RazonSocial=razon_social or None,
+                            Giro=giro or None,
+                            DirFact=dir_fact or None,
+                            CorreoPar=correo_par or None,
+                            Ciudad=ciudad or None,
+                            Comuna=comuna or None,
+                            CorreoFact=correo_fact or None,
+                            ListaProveedor=ListaProveedorEnum(lista_proveedor) if lista_proveedor > 0 else None,
+                        )
+                    ],
+                )
+                return await client.Proveedores.EditarProveedores(solicitud)
         try:
             return self.format_response(asyncio.run(_exec()))
         except Exception as e:

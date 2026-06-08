@@ -630,6 +630,46 @@ REGISTRY = [
             f["rut_emisor"], f["rut_proveedor"],
             int(f["lista"].split(" ")[0]) if " " in f["lista"] else int(f["lista"])
         )),
+
+        ("Listar Proveedores", [
+            _f("RUT Emisor", "rut_emisor", RUT_EMISOR),
+        ], lambda f, u, p: ProveedorController(u, p).listar_proveedores(f["rut_emisor"])),
+
+        ("Agregar Proveedores", [
+            _f("RUT Emisor",        "rut_emisor",   RUT_EMISOR),
+            _f("RUT Proveedor",     "rut",          "85101774-7"),
+            _f("Razón Social",      "razon_social", "Empresa Proveedor SpA"),
+            _f("Giro",              "giro",         "Servicios de Tecnología"),
+            _f("Dirección Fact.",   "dir_fact",     "Av. Providencia 1234, Of. 5"),
+            _f("Correo Par",        "correo_par",   "contacto@proveedor.cl"),
+            _f("Ciudad",            "ciudad",       "Santiago"),
+            _f("Comuna",            "comuna",       "Providencia"),
+            _f("Correo Fact.",      "correo_fact",  "dte@proveedor.cl"),
+            _f("Lista", "lista_proveedor", "2",
+               "combo", ["1 - Lista Negra", "2 - Lista Blanca", "3 - Desconocido"]),
+        ], lambda f, u, p: ProveedorController(u, p).agregar_proveedores(
+            f["rut_emisor"], f["rut"], f["razon_social"], f["giro"], f["dir_fact"],
+            f["correo_par"], f["ciudad"], f["comuna"], f["correo_fact"],
+            int(f["lista_proveedor"].split(" ")[0]) if " " in f["lista_proveedor"] else int(f["lista_proveedor"])
+        )),
+
+        ("Editar Proveedores", [
+            _f("RUT Emisor",        "rut_emisor",   RUT_EMISOR),
+            _f("RUT Proveedor",     "rut",          "85101774-7"),
+            _f("Razón Social",      "razon_social", "Empresa Proveedor SpA Actualizada"),
+            _f("Giro",              "giro",         "Consultoría TI"),
+            _f("Dirección Fact.",   "dir_fact",     ""),
+            _f("Correo Par",        "correo_par",   "nuevo@proveedor.cl"),
+            _f("Ciudad",            "ciudad",       ""),
+            _f("Comuna",            "comuna",       ""),
+            _f("Correo Fact.",      "correo_fact",  ""),
+            _f("Lista", "lista_proveedor", "1",
+               "combo", ["0 - Sin cambio", "1 - Lista Negra", "2 - Lista Blanca", "3 - Desconocido"]),
+        ], lambda f, u, p: ProveedorController(u, p).editar_proveedores(
+            f["rut_emisor"], f["rut"], f["razon_social"], f["giro"], f["dir_fact"],
+            f["correo_par"], f["ciudad"], f["comuna"], f["correo_fact"],
+            int(f["lista_proveedor"].split(" ")[0]) if " " in f["lista_proveedor"] else int(f["lista_proveedor"])
+        )),
     ]),
 
     # ── Usuarios ──────────────────────────────────────────────────────────────
