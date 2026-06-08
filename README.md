@@ -31,7 +31,7 @@ pip install -r requirements.txt
 El archivo `requirements.txt` contiene:
 
 ```
-SimpleFacturaSDK==1.2.0
+SimpleFacturaSDK==1.2.1
 aiohttp>=3.9.0
 Pillow>=10.0.0
 ```
@@ -78,7 +78,7 @@ DemoSKDPython/
 │   ├── folio_controller.py          # Folios (5)
 │   ├── configuracion_controller.py  # Configuración (2)
 │   ├── sucursal_controller.py       # Sucursales (1)
-│   ├── proveedor_controller.py      # Proveedores (7)
+│   ├── proveedor_controller.py      # Proveedores (10)
 │   ├── usuario_controller.py        # Usuarios (1)
 │   ├── cesion_controller.py         # Cesiones (3)
 │   ├── partner_controller.py        # Partners (4)
@@ -210,7 +210,7 @@ El panel de respuesta muestra el resultado con **resaltado de sintaxis**:
 |----------|-------------|
 | Listar Sucursales | Lista todas las sucursales registradas |
 
-### 8. Proveedores (7 endpoints)
+### 8. Proveedores (10 endpoints)
 
 | Endpoint | Descripción |
 |----------|-------------|
@@ -221,6 +221,9 @@ El panel de respuesta muestra el resultado con **resaltado de sintaxis**:
 | Conciliar Recibidos | Conciliación de DTE recibidos |
 | Obtener Trazas Recibidas | Historial de estados de DTE recibido |
 | Actualizar Lista Proveedor | Mueve un proveedor a lista blanca/negra |
+| Listar Proveedores | Lista proveedores registrados |
+| Editar Proveedor | Edita los datos de un proveedor registrado |
+| Agregar Proveedor | Registra un nuevo proveedor |
 
 ### 9. Usuarios (1 endpoint)
 
